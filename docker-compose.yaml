@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+
+  nginx:
+    build: 
+      context: ./nginx-lb
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    restart: always
+    networks:
+      - backend_network
+
+  web:
+    build:
+      context: ./web
+    networks:
+      - backend_network
+    restart: always
+    deploy:
+      replicas: 3
+
+networks:
+  backend_network:
